@@ -1,1 +1,87 @@
-<app-coming-soon [title]="title"></app-coming-soon>
+<div class="policy-certificate-page">
+  <div class="page-header">
+    <h1>Policy Certificate @if (policyId() !== null) { — Policy {{ policyId() }} }</h1>
+    <button type="button" class="mp-btn-secondary" (click)="backToBatchSummary()">
+      Back to Batch Summary
+    </button>
+  </div>
+
+  @if (loading()) {
+    <div class="mp-card"><p>Loading policy details...</p></div>
+  }
+
+  @if (loadError()) {
+    <div class="mp-alert-error">{{ loadError() }}</div>
+  }
+
+  @if (policy(); as p) {
+    <div class="mp-card details-card">
+      <dl class="details-grid">
+        <div class="detail">
+          <dt>Policy Number</dt>
+          <dd>{{ p.policyNo }}</dd>
+        </div>
+        <div class="detail">
+          <dt>Master Policy</dt>
+          <dd>{{ p.masterPolicyNo ?? 'Not available' }}</dd>
+        </div>
+        <div class="detail">
+          <dt>Make</dt>
+          <dd>{{ p.make ?? '-' }}</dd>
+        </div>
+        <div class="detail">
+          <dt>Model</dt>
+          <dd>{{ p.model ?? '-' }}</dd>
+        </div>
+        <div class="detail">
+          <dt>Engine Number</dt>
+          <dd>{{ p.engineNo }}</dd>
+        </div>
+        <div class="detail">
+          <dt>Chassis Number</dt>
+          <dd>{{ p.chassisNo }}</dd>
+        </div>
+        <div class="detail">
+          <dt>Premium</dt>
+          <dd>{{ p.premium | number: '1.2-2' }}</dd>
+        </div>
+        <div class="detail">
+          <dt>Issued Date</dt>
+          <dd>{{ p.issuedOn | date: 'mediumDate' }}</dd>
+        </div>
+      </dl>
+
+      @if (printError()) {
+        <div class="mp-alert-error">{{ printError() }}</div>
+      }
+      @if (downloadError()) {
+        <div class="mp-alert-error">{{ downloadError() }}</div>
+      }
+      @if (downloadSuccess()) {
+        <div class="mp-alert-success">Certificate downloaded.</div>
+      }
+
+      <div class="actions-row">
+        <button type="button" class="mp-btn-primary" [disabled]="printBusy()" (click)="print()">
+          @if (printBusy()) {
+            Opening...
+          } @else {
+            Print
+          }
+        </button>
+        <button
+          type="button"
+          class="mp-btn-secondary"
+          [disabled]="downloadBusy()"
+          (click)="download()"
+        >
+          @if (downloadBusy()) {
+            Downloading...
+          } @else {
+            Download Certificate
+          }
+        </button>
+      </div>
+    </div>
+  }
+</div>
