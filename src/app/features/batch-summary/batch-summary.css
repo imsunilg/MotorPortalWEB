@@ -79,3 +79,38 @@
   font-size: 12px;
   white-space: nowrap;
 }
+
+.bulk-print-card {
+  margin-bottom: 20px;
+}
+
+.bulk-print-card h2 {
+  margin-top: 0;
+  font-size: 16px;
+  color: var(--mp-navy);
+}
+
+.cert-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cert-link {
+  background-color: var(--mp-off-white);
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mp-orange-accent);
+  cursor: pointer;
+}
+
+.cert-link:hover {
+  background-color: var(--mp-white);
+  border-color: var(--mp-orange-accent);
+}

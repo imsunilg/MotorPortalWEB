@@ -5,7 +5,11 @@ import { DatePipe, NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { BatchService } from '../../core/services/batch.service';
 import { extractErrorMessage } from '../../core/services/api-error.util';
-import { BatchSummaryCounters, BatchSummaryRow } from '../../core/models/batch.model';
+import {
+  BatchSummaryCounters,
+  BatchSummaryRow,
+  BulkPrintCertificate,
+} from '../../core/models/batch.model';
 
 @Component({
   selector: 'app-batch-summary',
@@ -32,6 +36,10 @@ export class BatchSummary implements OnInit {
   readonly rowActionMessage = signal<string | null>(null);
   readonly rowActionError = signal<string | null>(null);
   readonly rowActionBusy = signal<number | null>(null);
+
+  readonly bulkPrintResult = signal<{ batchId: number; certificates: BulkPrintCertificate[] } | null>(
+    null,
+  );
 
   ngOnInit(): void {
     this.refresh();
@@ -95,6 +103,16 @@ export class BatchSummary implements OnInit {
     this.router.navigate(['/invalid-records', batchId]);
   }
 
+  goToBatchProcessing(batchId: number): void {
+    this.router.navigate(['/batch-processing', batchId]);
+  }
+
+  goToCertificate(cert: BulkPrintCertificate): void {
+    this.router.navigate(['/policy-certificate', cert.policyId], {
+      queryParams: { policyNo: cert.policyNo },
+    });
+  }
+
   processBatch(row: BatchSummaryRow): void {
     this.rowActionBusy.set(row.batchId);
     this.rowActionMessage.set(null);
@@ -137,12 +155,14 @@ export class BatchSummary implements OnInit {
     this.rowActionBusy.set(row.batchId);
     this.rowActionMessage.set(null);
     this.rowActionError.set(null);
+    this.bulkPrintResult.set(null);
     this.batchService.bulkPrint(row.batchId).subscribe({
       next: (result) => {
         this.rowActionBusy.set(null);
         this.rowActionMessage.set(
           `Bulk print completed for batch ${result.batchId}: ${result.certificates.length} certificate(s).`,
         );
+        this.bulkPrintResult.set({ batchId: result.batchId, certificates: result.certificates });
         this.refresh();
       },
       error: (error: HttpErrorResponse) => {

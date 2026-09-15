@@ -55,6 +55,25 @@
     <div class="mp-alert-error">{{ rowActionError() }}</div>
   }
 
+  @if (bulkPrintResult(); as bp) {
+    <div class="mp-card bulk-print-card">
+      <h2>Certificates Generated — Batch {{ bp.batchId }}</h2>
+      @if (bp.certificates.length === 0) {
+        <p>No certificates were generated (no eligible policies in this batch).</p>
+      } @else {
+        <ul class="cert-list">
+          @for (cert of bp.certificates; track cert.policyId) {
+            <li>
+              <button type="button" class="cert-link" (click)="goToCertificate(cert)">
+                {{ cert.policyNo }}
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  }
+
   <div class="mp-card">
     @if (rowsLoading()) {
       <p>Loading batches...</p>
@@ -103,6 +122,13 @@
                       (click)="processBatch(row)"
                     >
                       Process Batch
+                    </button>
+                    <button
+                      type="button"
+                      class="mp-btn-secondary"
+                      (click)="goToBatchProcessing(row.batchId)"
+                    >
+                      View Processing
                     </button>
                     <button
                       type="button"
