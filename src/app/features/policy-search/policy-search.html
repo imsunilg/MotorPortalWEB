@@ -1,1 +1,111 @@
-<app-coming-soon [title]="title"></app-coming-soon>
+<div class="policy-search-page">
+  <h1>Search &amp; Print Policy</h1>
+
+  <div class="mp-card">
+    <p class="hint">Enter at least one field to search.</p>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="engineNo">Engine Number</label>
+        <input
+          id="engineNo"
+          type="text"
+          [value]="engineNo()"
+          (input)="engineNo.set($any($event.target).value)"
+          (keyup.enter)="search()"
+        />
+      </div>
+      <div class="field">
+        <label for="chassisNo">Chassis Number</label>
+        <input
+          id="chassisNo"
+          type="text"
+          [value]="chassisNo()"
+          (input)="chassisNo.set($any($event.target).value)"
+          (keyup.enter)="search()"
+        />
+      </div>
+      <div class="field">
+        <label for="tcNo">TC Number</label>
+        <input
+          id="tcNo"
+          type="text"
+          [value]="tcNo()"
+          (input)="tcNo.set($any($event.target).value)"
+          (keyup.enter)="search()"
+        />
+      </div>
+      <div class="field">
+        <label for="policyNo">Policy Number</label>
+        <input
+          id="policyNo"
+          type="text"
+          [value]="policyNo()"
+          (input)="policyNo.set($any($event.target).value)"
+          (keyup.enter)="search()"
+        />
+      </div>
+    </div>
+
+    <div class="actions-row">
+      <button type="button" class="mp-btn-primary" [disabled]="searching()" (click)="search()">
+        @if (searching()) {
+          Searching...
+        } @else {
+          Search
+        }
+      </button>
+      <button type="button" class="mp-btn-secondary" (click)="reset()">Reset</button>
+    </div>
+
+    @if (validationError()) {
+      <div class="mp-alert-error">{{ validationError() }}</div>
+    }
+    @if (searchError()) {
+      <div class="mp-alert-error">{{ searchError() }}</div>
+    }
+  </div>
+
+  @if (results(); as rows) {
+    <div class="mp-card results-card">
+      @if (rows.length === 0) {
+        <p>No records found for the given search criteria.</p>
+      } @else {
+        <div class="table-scroll">
+          <table class="mp-table">
+            <thead>
+              <tr>
+                <th>Policy Number</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Chassis</th>
+                <th>Engine</th>
+                <th>Premium</th>
+                <th>Status</th>
+                <th>Issued On</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of rows; track row.policyId) {
+                <tr>
+                  <td>{{ row.policyNo }}</td>
+                  <td>{{ row.make ?? '-' }}</td>
+                  <td>{{ row.model ?? '-' }}</td>
+                  <td>{{ row.chassisNo }}</td>
+                  <td>{{ row.engineNo }}</td>
+                  <td>{{ row.premium | number: '1.2-2' }}</td>
+                  <td><span class="mp-badge">{{ row.status }}</span></td>
+                  <td>{{ row.issuedOn | date: 'medium' }}</td>
+                  <td>
+                    <button type="button" class="mp-btn-secondary" (click)="print(row)">Print</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  }
+</div>

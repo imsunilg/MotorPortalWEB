@@ -1,0 +1,56 @@
+.policy-search-page {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.policy-search-page h1 {
+  color: var(--mp-navy);
+}
+
+.hint {
+  margin: 0 0 14px;
+  color: var(--mp-text-muted);
+  font-size: 13px;
+}
+
+.field-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 200px;
+  min-width: 160px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mp-text-muted);
+  margin-bottom: 6px;
+}
+
+.field input {
+  padding: 8px 10px;
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  font-size: 14px;
+}
+
+.actions-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.results-card {
+  margin-top: 20px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
