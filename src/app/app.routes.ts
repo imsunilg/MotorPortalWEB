@@ -32,7 +32,7 @@ export const routes: Routes = [
           import('./features/batch-processing/batch-processing').then((m) => m.BatchProcessing),
       },
       {
-        path: 'invalid-records',
+        path: 'invalid-records/:batchId',
         loadComponent: () =>
           import('./features/invalid-records/invalid-records').then((m) => m.InvalidRecords),
       },

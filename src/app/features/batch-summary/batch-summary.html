@@ -1,1 +1,140 @@
-<app-coming-soon [title]="title"></app-coming-soon>
+<div class="batch-summary-page">
+  <h1>Batch Summary</h1>
+
+  <div class="mp-card filter-card">
+    <div class="filter-row">
+      <div class="field">
+        <label for="fromDate">From Date</label>
+        <input id="fromDate" type="date" (change)="onFromDateChange($any($event.target).value)" />
+      </div>
+      <div class="field">
+        <label for="toDate">To Date</label>
+        <input id="toDate" type="date" (change)="onToDateChange($any($event.target).value)" />
+      </div>
+      <button type="button" class="mp-btn-primary" (click)="refresh()">Apply</button>
+    </div>
+  </div>
+
+  @if (countersError()) {
+    <div class="mp-alert-error">Summary counters: {{ countersError() }}</div>
+  }
+
+  @if (counters(); as c) {
+    <div class="counter-grid">
+      <div class="mp-card counter-card">
+        <span class="counter-value">{{ c.totalRecords }}</span>
+        <span class="counter-label">Total</span>
+      </div>
+      <div class="mp-card counter-card">
+        <span class="counter-value">{{ c.validRecords }}</span>
+        <span class="counter-label">Valid</span>
+      </div>
+      <div class="mp-card counter-card">
+        <span class="counter-value">{{ c.invalidRecords }}</span>
+        <span class="counter-label">Invalid</span>
+      </div>
+      <div class="mp-card counter-card">
+        <span class="counter-value">{{ c.pendingBatchProcessing }}</span>
+        <span class="counter-label">Pending Processing</span>
+      </div>
+      <div class="mp-card counter-card">
+        <span class="counter-value">{{ c.paymentPending }}</span>
+        <span class="counter-label">Payment Pending</span>
+      </div>
+      <div class="mp-card counter-card">
+        <span class="counter-value">{{ c.paymentProcessed }}</span>
+        <span class="counter-label">Payment Processed</span>
+      </div>
+    </div>
+  }
+
+  @if (rowActionMessage()) {
+    <div class="mp-alert-success">{{ rowActionMessage() }}</div>
+  }
+  @if (rowActionError()) {
+    <div class="mp-alert-error">{{ rowActionError() }}</div>
+  }
+
+  <div class="mp-card">
+    @if (rowsLoading()) {
+      <p>Loading batches...</p>
+    }
+    @if (rowsError()) {
+      <div class="mp-alert-error">Batch list: {{ rowsError() }}</div>
+    }
+
+    @if (!rowsLoading() && !rowsError()) {
+      @if (rows().length === 0) {
+        <p>No batches found for the selected date range.</p>
+      } @else {
+        <div class="table-scroll">
+          <table class="mp-table">
+            <thead>
+              <tr>
+                <th>Batch ID</th>
+                <th>Total</th>
+                <th>Valid</th>
+                <th>Invalid</th>
+                <th>Pending Processing</th>
+                <th>Payment Pending</th>
+                <th>Payment Processed</th>
+                <th>Status</th>
+                <th>Created On</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of rows(); track row.batchId) {
+                <tr>
+                  <td>{{ row.batchId }}</td>
+                  <td>{{ row.totalRecords }}</td>
+                  <td>{{ row.validRecords }}</td>
+                  <td>{{ row.invalidRecords }}</td>
+                  <td>{{ row.pendingProcessing }}</td>
+                  <td>{{ row.paymentPending }}</td>
+                  <td>{{ row.paymentProcessed }}</td>
+                  <td><span class="mp-badge" [ngClass]="statusBadgeClass(row.status)">{{ row.status }}</span></td>
+                  <td>{{ row.createdOn | date: 'medium' }}</td>
+                  <td class="actions-cell">
+                    <button
+                      type="button"
+                      class="mp-btn-secondary"
+                      [disabled]="rowActionBusy() === row.batchId"
+                      (click)="processBatch(row)"
+                    >
+                      Process Batch
+                    </button>
+                    <button
+                      type="button"
+                      class="mp-btn-secondary"
+                      [disabled]="row.invalidRecords === 0"
+                      (click)="goToInvalidRecords(row.batchId)"
+                    >
+                      Reason for Invalid
+                    </button>
+                    <button
+                      type="button"
+                      class="mp-btn-secondary"
+                      [disabled]="rowActionBusy() === row.batchId"
+                      (click)="processPayments(row)"
+                    >
+                      Payment Processing
+                    </button>
+                    <button
+                      type="button"
+                      class="mp-btn-secondary"
+                      [disabled]="rowActionBusy() === row.batchId"
+                      (click)="bulkPrint(row)"
+                    >
+                      Bulk Print
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+  </div>
+</div>
