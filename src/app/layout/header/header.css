@@ -1,10 +1,12 @@
 .app-header {
-  height: 60px;
+  min-height: 60px;
   background: var(--mp-navbar-gradient);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  flex-wrap: wrap;
+  row-gap: 8px;
+  padding: 10px 20px;
   color: var(--mp-white);
   box-shadow: var(--mp-shadow-sm);
 }
