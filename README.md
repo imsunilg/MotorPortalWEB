@@ -117,3 +117,29 @@ Read through every page's `.html`/`.css` across all phases (dashboard, excel-upl
 - Reports — Policy Issue Report export to Excel
 - Search & Print Policy — multi-field policy search with print-to-certificate
 - Policy Cancel Upload — bulk policy cancellation via Excel upload with per-row results
+
+## Known limitations / not yet implemented
+
+A full cross-repo integration pass (2026-09-15) drove the entire journey
+end to end through the real running app in a headless Chromium browser
+(login → dashboard → excel upload → batch processing → invalid records →
+payment tagging with a real insufficient-CD-balance case → certificate
+view/download → bulk print → search & print → report export → policy
+cancel + re-upload rejection), against the real API and PostgreSQL
+database — no shortcuts.
+
+Two real bugs were found and fixed during that pass:
+
+- `excel-upload.ts` and `policy-cancel.ts` never cleared the native
+  `<input type="file">`'s value after handling a selection, so
+  re-selecting the *exact same file* a second time (e.g. retrying a
+  failed upload, or re-uploading a cancel-list file) silently failed to
+  fire the browser's `change` event, leaving the Upload button disabled
+  with no feedback. Fixed by resetting `input.value = ''` at the end of
+  `onFileSelected()` in both components.
+
+No other known integration-level limitations were found in this pass.
+The PF (payment facilitator) confirmation remains simulated on the API
+side (`MockPfService`), which is expected and by design for this
+environment — the UI already renders whatever real or simulated
+response the API returns.

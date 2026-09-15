@@ -59,6 +59,9 @@ export class ExcelUpload implements OnInit {
     this.uploadRowErrors.set([]);
     this.processSummary.set(null);
     this.processError.set(null);
+    // Clear the native input value so selecting the exact same file again
+    // (e.g. after a failed upload, to retry the same file) still fires 'change'.
+    input.value = '';
   }
 
   downloadSampleTemplate(): void {

@@ -25,6 +25,9 @@ export class PolicyCancel {
     this.selectedFile.set(file);
     this.uploadError.set(null);
     this.result.set(null);
+    // Clear the native input value so selecting the exact same file again
+    // (e.g. after Reset, to re-run the same upload) still fires 'change'.
+    input.value = '';
   }
 
   upload(): void {
