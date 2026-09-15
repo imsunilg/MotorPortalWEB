@@ -54,3 +54,10 @@
     display: inline;
   }
 }
+
+@media (max-width: 639px) {
+  .logout-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
