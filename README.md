@@ -44,7 +44,7 @@ The app reads `environment.apiBaseUrl` for all HTTP calls (see
 
 - `src/environments/environment.development.ts` is used automatically by
   `ng serve` (wired via the `development` file replacement in
-  `angular.json`). It defaults to `http://localhost:5287/api`, matching
+  `angular.json`). It defaults to `http://localhost:5795/api`, matching
   MotorPortalAPI's `http` launch profile.
 - `src/environments/environment.ts` is used for production builds
   (`ng build`). Update `apiBaseUrl` there to point at the deployed API
@@ -61,7 +61,7 @@ npm install
 ng serve
 ```
 
-Then open `http://localhost:4200`. Log in with the seeded MotorPortalAPI
+Then open `http://localhost:4795`. Log in with the seeded MotorPortalAPI
 credentials (`admin` / `admin123`) once the API is running
 (`dotnet run --project MotorPortal.API` from the MotorPortalAPI repo). See
 MotorPortalDOC's
@@ -187,7 +187,7 @@ for bringing up the whole stack from zero.
 
 Verified end-to-end against a live MotorPortalAPI + PostgreSQL instance,
 **including a real headless-browser click-through** (Playwright/Chromium —
-logged in as `admin`/`admin123` at `http://localhost:4200`, driven through
+logged in as `admin`/`admin123` at `http://localhost:4795`, driven through
 the actual DOM, at both a 1280px desktop and a 375px mobile viewport, with
 zero console/page errors at either width) covering the entire journey:
 login → dashboard → Excel upload → batch processing → invalid records →
