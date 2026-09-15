@@ -1,1 +1,79 @@
-<app-coming-soon [title]="title"></app-coming-soon>
+<div class="invalid-records-page">
+  <div class="page-header">
+    <h1>Invalid Records @if (batchId() !== null) { — Batch {{ batchId() }} }</h1>
+    <button type="button" class="mp-btn-secondary" (click)="backToBatchSummary()">
+      Back to Batch Summary
+    </button>
+  </div>
+
+  <div class="mp-card">
+    @if (loadError()) {
+      <div class="mp-alert-error">{{ loadError() }}</div>
+    }
+    @if (clearSuccess()) {
+      <div class="mp-alert-success">Invalid entries removed successfully.</div>
+    }
+    @if (clearError()) {
+      <div class="mp-alert-error">{{ clearError() }}</div>
+    }
+
+    @if (loading()) {
+      <p>Loading invalid records...</p>
+    }
+
+    @if (!loading() && !loadError()) {
+      @if (records().length === 0) {
+        <p>No invalid records for this batch.</p>
+      } @else {
+        <div class="table-scroll">
+          <table class="mp-table">
+            <thead>
+              <tr>
+                <th>Transit Date</th>
+                <th>Invoice Number</th>
+                <th>Engine Number</th>
+                <th>Chassis Number</th>
+                <th>Error Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (record of records(); track $index) {
+                <tr>
+                  <td>{{ record.transitDate ?? '-' }}</td>
+                  <td>{{ record.invoiceNo ?? '-' }}</td>
+                  <td>{{ record.engineNo ?? '-' }}</td>
+                  <td>{{ record.chassisNo ?? '-' }}</td>
+                  <td>{{ record.errorRemarks }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="actions-row">
+          <button
+            type="button"
+            class="mp-btn-primary"
+            [disabled]="clearing()"
+            (click)="openConfirm()"
+          >
+            @if (clearing()) {
+              Removing...
+            } @else {
+              Remove All Invalid Entries
+            }
+          </button>
+        </div>
+      }
+    }
+  </div>
+</div>
+
+<app-confirm-dialog
+  [open]="confirmOpen()"
+  title="Remove all invalid entries"
+  message="This will permanently remove all invalid records for this batch. This action cannot be undone. Continue?"
+  confirmLabel="Remove All"
+  (confirmed)="confirmClearAll()"
+  (cancelled)="cancelConfirm()"
+/>
