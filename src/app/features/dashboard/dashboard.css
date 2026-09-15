@@ -1,0 +1,141 @@
+.dashboard-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dashboard-header h1 {
+  color: var(--mp-white);
+  margin: 0;
+}
+
+.selection-card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.selection-group h2 {
+  margin: 0 0 12px;
+  color: var(--mp-navy);
+  font-size: 16px;
+}
+
+.option-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.option.selected {
+  border-color: var(--mp-orange-accent);
+  background-color: var(--mp-off-white);
+}
+
+.field-error {
+  color: var(--mp-error);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.submit-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: flex-end;
+  z-index: 900;
+}
+
+.drawer {
+  width: 100%;
+  max-width: 380px;
+  height: 100%;
+  border-radius: 0;
+  overflow-y: auto;
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.drawer-header h2 {
+  margin: 0;
+  color: var(--mp-navy);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--mp-text-muted);
+  line-height: 1;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mp-text-muted);
+  margin-bottom: 6px;
+}
+
+.field select {
+  padding: 10px 12px;
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  font-size: 14px;
+}
+
+.policy-details {
+  background-color: var(--mp-off-white);
+  border-radius: var(--mp-radius-sm);
+  padding: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.policy-details span {
+  font-weight: 600;
+  color: var(--mp-text-muted);
+}
+
+.cd-balance-result {
+  margin-top: 16px;
+  font-size: 16px;
+  color: var(--mp-navy);
+}

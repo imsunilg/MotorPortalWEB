@@ -47,6 +47,53 @@ button {
   cursor: not-allowed;
 }
 
+.mp-btn-secondary {
+  background-color: var(--mp-white);
+  color: var(--mp-navy);
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+}
+
+.mp-btn-secondary:hover:not(:disabled) {
+  background-color: var(--mp-off-white);
+  border-color: var(--mp-orange-accent);
+}
+
+.mp-btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mp-alert-error {
+  background-color: var(--mp-error-bg);
+  color: var(--mp-error);
+  border-radius: var(--mp-radius-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.mp-alert-success {
+  background-color: var(--mp-success-bg);
+  color: var(--mp-success);
+  border-radius: var(--mp-radius-sm);
+  padding: 10px 12px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.mp-badge-warning {
+  background-color: var(--mp-warning-bg);
+  color: #a06a10;
+}
+
 .mp-card {
   background-color: var(--mp-white);
   border-radius: var(--mp-radius-lg);

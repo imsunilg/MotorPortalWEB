@@ -1,1 +1,119 @@
-<app-coming-soon [title]="title"></app-coming-soon>
+<div class="dashboard-page">
+  <div class="dashboard-header">
+    <h1>Dashboard</h1>
+    <button type="button" class="mp-btn-secondary" (click)="toggleDrawer()">
+      View CD Balance
+    </button>
+  </div>
+
+  <div class="mp-card selection-card">
+    <section class="selection-group">
+      <h2>Select Product</h2>
+      <div class="option-list">
+        @for (product of products; track product.productId) {
+          <label class="option" [class.selected]="selectedProductId() === product.productId">
+            <input
+              type="radio"
+              name="product"
+              [checked]="selectedProductId() === product.productId"
+              (change)="selectProduct(product.productId)"
+            />
+            <span>{{ product.name }}</span>
+          </label>
+        }
+      </div>
+      @if (showValidation() && selectedProductId() === null) {
+        <p class="field-error">Please select a product.</p>
+      }
+    </section>
+
+    <section class="selection-group">
+      <h2>Select Process</h2>
+      <div class="option-list">
+        @for (process of processes; track process.functionId) {
+          <label class="option" [class.selected]="selectedFunctionId() === process.functionId">
+            <input
+              type="radio"
+              name="process"
+              [checked]="selectedFunctionId() === process.functionId"
+              (change)="selectProcess(process.functionId)"
+            />
+            <span>{{ process.name }}</span>
+          </label>
+        }
+      </div>
+      @if (showValidation() && selectedFunctionId() === null) {
+        <p class="field-error">Please select a process.</p>
+      }
+    </section>
+
+    <div class="submit-row">
+      <button type="button" class="mp-btn-primary" (click)="submit()">Submit</button>
+    </div>
+  </div>
+</div>
+
+@if (drawerOpen()) {
+  <div class="drawer-backdrop" (click)="toggleDrawer()">
+    <aside class="drawer mp-card" (click)="$event.stopPropagation()">
+      <div class="drawer-header">
+        <h2>View CD Balance</h2>
+        <button type="button" class="close-btn" (click)="toggleDrawer()" aria-label="Close">
+          &times;
+        </button>
+      </div>
+
+      @if (masterPoliciesLoading()) {
+        <p>Loading master policies...</p>
+      }
+      @if (masterPoliciesError()) {
+        <div class="mp-alert-error">{{ masterPoliciesError() }}</div>
+      }
+
+      @if (!masterPoliciesLoading() && !masterPoliciesError()) {
+        <div class="field">
+          <label for="masterPolicy">Master Policy</label>
+          <select
+            id="masterPolicy"
+            (change)="onMasterPolicyChange($any($event.target).value)"
+          >
+            <option value="">-- Select master policy --</option>
+            @for (policy of masterPolicies(); track policy.masterPolicyId) {
+              <option [value]="policy.masterPolicyId">{{ policy.masterPolicyNo }}</option>
+            }
+          </select>
+        </div>
+
+        @if (selectedMasterPolicy; as policy) {
+          <div class="policy-details">
+            <div><span>Customer No:</span> {{ policy.customerNo }}</div>
+            <div><span>CDBG No:</span> {{ policy.cdbgNo }}</div>
+          </div>
+
+          <button
+            type="button"
+            class="mp-btn-primary"
+            [disabled]="cdBalanceLoading()"
+            (click)="submitCdBalance()"
+          >
+            @if (cdBalanceLoading()) {
+              Loading...
+            } @else {
+              Submit
+            }
+          </button>
+        }
+
+        @if (cdBalanceError()) {
+          <div class="mp-alert-error">{{ cdBalanceError() }}</div>
+        }
+
+        @if (cdBalance() !== null) {
+          <div class="cd-balance-result">
+            CD Balance: <strong>{{ cdBalance() | number: '1.2-2' }}</strong>
+          </div>
+        }
+      }
+    </aside>
+  </div>
+}
