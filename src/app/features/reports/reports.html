@@ -1,1 +1,35 @@
-<app-coming-soon [title]="title"></app-coming-soon>
+<div class="reports-page">
+  <h1>Reports</h1>
+
+  <div class="mp-card">
+    <div class="field-row">
+      <div class="field">
+        <label for="reportType">Report Type</label>
+        <input id="reportType" type="text" [value]="reportType" readonly disabled />
+      </div>
+      <div class="field">
+        <label for="fromDate">From Date</label>
+        <input id="fromDate" type="date" (change)="onFromDateChange($any($event.target).value)" />
+      </div>
+      <div class="field">
+        <label for="toDate">To Date</label>
+        <input id="toDate" type="date" (change)="onToDateChange($any($event.target).value)" />
+      </div>
+      <button type="button" class="mp-btn-primary" [disabled]="exporting()" (click)="export()">
+        @if (exporting()) {
+          Exporting...
+        } @else {
+          Export Report
+        }
+      </button>
+    </div>
+
+    @if (exportError()) {
+      <div class="mp-alert-error">{{ exportError() }}</div>
+    }
+
+    @if (exportSuccess() && !exportError()) {
+      <div class="mp-alert-success">Report downloaded successfully.</div>
+    }
+  </div>
+</div>

@@ -1,0 +1,45 @@
+.reports-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.reports-page h1 {
+  color: var(--mp-navy);
+}
+
+.field-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mp-text-muted);
+  margin-bottom: 6px;
+}
+
+.field input {
+  padding: 8px 10px;
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  font-size: 14px;
+}
+
+.field input[readonly][disabled] {
+  background-color: var(--mp-off-white);
+  color: var(--mp-text-dark);
+}
+
+.mp-alert-error,
+.mp-alert-success {
+  margin-top: 16px;
+}
