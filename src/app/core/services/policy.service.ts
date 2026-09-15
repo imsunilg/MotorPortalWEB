@@ -2,7 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { CertificateGenerateResult, PolicySearchResult } from '../models/policy.model';
+import {
+  CertificateGenerateResult,
+  PolicyCancelUploadResult,
+  PolicySearchResult,
+} from '../models/policy.model';
 
 /** Talks to the `/api/policies` endpoints on MotorPortalAPI. */
 @Injectable({ providedIn: 'root' })
@@ -39,5 +43,17 @@ export class PolicyService {
    */
   getCertificateBlob(policyId: number): Observable<Blob> {
     return this.http.get(`${this.baseUrl}/${policyId}/certificate`, { responseType: 'blob' });
+  }
+
+  /**
+   * Uploads a `POLICY_NO`-column Excel file to `POST /api/policies/cancel-upload`.
+   * Every row is processed independently by the API — a row failing (e.g.
+   * unknown policy number) never fails the whole request — so this only
+   * rejects on transport-level errors (bad file type, network, auth, etc.).
+   */
+  cancelUpload(file: File): Observable<PolicyCancelUploadResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<PolicyCancelUploadResult>(`${this.baseUrl}/cancel-upload`, formData);
   }
 }

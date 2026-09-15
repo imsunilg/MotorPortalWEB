@@ -1,1 +1,78 @@
-<app-coming-soon [title]="title"></app-coming-soon>
+<div class="policy-cancel-page">
+  <h1>Policy Cancel Upload</h1>
+
+  <div class="mp-card">
+    <p class="hint">Upload an Excel file with a single <strong>POLICY_NO</strong> column, one policy number per row.</p>
+
+    <div class="file-row">
+      <label class="mp-btn-secondary file-btn">
+        Browse...
+        <input type="file" accept=".xlsx,.xls" hidden (change)="onFileSelected($event)" />
+      </label>
+      <span class="file-name">{{ selectedFile()?.name ?? 'No file selected' }}</span>
+    </div>
+
+    <div class="actions-row">
+      <button
+        type="button"
+        class="mp-btn-primary"
+        [disabled]="uploading() || !selectedFile()"
+        (click)="upload()"
+      >
+        @if (uploading()) {
+          Uploading...
+        } @else {
+          Upload &amp; Cancel
+        }
+      </button>
+      <button type="button" class="mp-btn-secondary" (click)="reset()">Reset</button>
+    </div>
+
+    @if (uploadError()) {
+      <div class="mp-alert-error">{{ uploadError() }}</div>
+    }
+  </div>
+
+  @if (result(); as r) {
+    <div class="result-grid">
+      <div class="mp-card result-card">
+        <h2>Cancelled ({{ r.cancelled.length }})</h2>
+        @if (r.cancelled.length === 0) {
+          <p class="empty-note">No policies were cancelled.</p>
+        } @else {
+          <ul class="result-list success-list">
+            @for (policyNo of r.cancelled; track policyNo) {
+              <li>{{ policyNo }}</li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="mp-card result-card">
+        <h2>Rejected ({{ r.rejected.length }})</h2>
+        @if (r.rejected.length === 0) {
+          <p class="empty-note">No rows were rejected.</p>
+        } @else {
+          <div class="table-scroll">
+            <table class="mp-table">
+              <thead>
+                <tr>
+                  <th>Policy Number</th>
+                  <th>Reason</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (row of r.rejected; track row.policyNo) {
+                  <tr>
+                    <td>{{ row.policyNo }}</td>
+                    <td>{{ row.reason }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

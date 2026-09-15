@@ -43,3 +43,22 @@ export interface CertificateGenerateResult {
   certPath: string;
   generatedFile: string;
 }
+
+/** One rejected row of `POST /api/policies/cancel-upload`. */
+export interface PolicyCancelRejection {
+  policyNo: string;
+  reason: string;
+}
+
+/**
+ * Response of `POST /api/policies/cancel-upload`.
+ *
+ * Verified live against the running API (`PolicyCancelUploadResultDto`):
+ * `cancelled` holds the policy numbers that were cancelled by this upload,
+ * `rejected` holds every row that couldn't be cancelled with a reason
+ * (e.g. "Policy not found", "Policy already cancelled").
+ */
+export interface PolicyCancelUploadResult {
+  cancelled: string[];
+  rejected: PolicyCancelRejection[];
+}
