@@ -215,6 +215,41 @@ Read through every page's `.html`/`.css` across all phases and fixed:
   page-header flex rows (dashboard, invalid-records, batch-processing,
   policy-certificate) that pair a title with a button.
 
+### Mobile audit pass (Playwright screenshots at 390x844, real login)
+
+Screenshotted every page (login, dashboard incl. the CD-balance drawer,
+excel-upload, batch-summary, batch-processing, invalid-records, reports,
+policy-search, policy-cancel, policy-certificate) against the real running
+app in headless Chromium at a mobile viewport, read each screenshot, and
+fixed what was actually visible:
+
+- **Batch Summary row height exploding on mobile (the real bug)** — the
+  9-column batch table has an actions cell with 5 buttons
+  (`Process Batch`/`View Processing`/`Reason for Invalid`/
+  `Payment Processing`/`Bulk Print`). That cell was `flex-wrap: wrap`,
+  which gave the table's auto-layout algorithm a tiny min-content width
+  for the column, so the browser squeezed it down to ~157px and stacked
+  the 5 buttons into a ~200px-tall column — even though that column
+  itself was scrolled off-screen to the right, every row on the page
+  ballooned to ~200px tall with mostly dead white space. Changed
+  `.actions-cell` to `flex-wrap: nowrap`, which forces the table to grow
+  wider instead (confirmed via computed styles: row height dropped from
+  196.5px to 84px, and the table now correctly scrolls horizontally via
+  the existing `.table-scroll { overflow-x: auto }` instead of squashing
+  vertically).
+- **CD-balance drawer left-edge gap on ~390-430px phones** — the drawer
+  was capped at `max-width: 380px`, so on viewports slightly wider than
+  that (e.g. 390px) it left a ~10px sliver of backdrop visible instead of
+  reaching the edge. Added a `max-width: 100%` override below 480px.
+- **Touch targets** — the mobile top-nav links (8px vertical padding,
+  ~33px tall) and the header Logout button (6px vertical padding, ~28px
+  tall) were under the ~40px touch-target guideline; bumped both at
+  mobile widths.
+- Re-screenshotted every touched page after the fix and confirmed each
+  issue was actually gone (not just assumed), then spot-checked
+  dashboard/drawer/batch-summary at 1280px desktop to confirm no
+  regression there.
+
 ## Progress
 
 - [x] Bootstrap (ground rules, README, .gitignore)
