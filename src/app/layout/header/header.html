@@ -1,0 +1,11 @@
+<header class="app-header">
+  <div class="brand">Motor Portal</div>
+
+  <div class="header-right">
+    <span class="datetime">{{ now() | date: 'medium' }}</span>
+    @if (currentUser(); as user) {
+      <span class="welcome">Welcome, {{ user.username }}</span>
+    }
+    <button type="button" class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</header>

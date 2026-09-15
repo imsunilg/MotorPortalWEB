@@ -1,0 +1,24 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.shell-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.shell-content {
+  flex: 1;
+  background-color: var(--mp-off-white);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .shell-body {
+    flex-direction: column;
+  }
+}
