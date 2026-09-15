@@ -1,0 +1,90 @@
+/* Global styles for the Motor Portal application. */
+@import './_theme.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--mp-font-family);
+  background-color: var(--mp-navy);
+  color: var(--mp-text-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--mp-orange-accent);
+}
+
+button {
+  font-family: inherit;
+}
+
+.mp-btn-primary {
+  background-color: var(--mp-orange-accent);
+  color: var(--mp-white);
+  border: none;
+  border-radius: var(--mp-radius-sm);
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.mp-btn-primary:hover:not(:disabled) {
+  background-color: var(--mp-orange-accent-hover);
+}
+
+.mp-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mp-card {
+  background-color: var(--mp-white);
+  border-radius: var(--mp-radius-lg);
+  box-shadow: var(--mp-shadow-md);
+  padding: 24px;
+}
+
+.mp-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.mp-badge-success {
+  background-color: var(--mp-success-bg);
+  color: var(--mp-success);
+}
+
+.mp-badge-error {
+  background-color: var(--mp-error-bg);
+  color: var(--mp-error);
+}
+
+table.mp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table.mp-table th,
+table.mp-table td {
+  border: 1px solid var(--mp-border);
+  padding: 10px 12px;
+  text-align: left;
+}
+
+table.mp-table th {
+  background-color: var(--mp-off-white);
+  font-weight: 600;
+}

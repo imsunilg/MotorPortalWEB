@@ -1,0 +1,46 @@
+/*
+ * Motor Portal global theme tokens.
+ * Every component MUST consume these custom properties instead of
+ * hardcoding hex colors, so the palette stays consistent and easy to retheme.
+ */
+:root {
+  /* Core palette */
+  --mp-navy: #00305b;
+  --mp-navy-light: #0a4278;
+  --mp-orange-gradient-start: #ee7b2e;
+  --mp-orange-gradient-end: #c1402c;
+  --mp-orange-accent: #ec6608;
+  --mp-orange-accent-hover: #d45a05;
+
+  --mp-white: #ffffff;
+  --mp-off-white: #f4f6f8;
+  --mp-border: #d9dee3;
+  --mp-text-dark: #1c2733;
+  --mp-text-muted: #5a6a7a;
+
+  /* Status colors */
+  --mp-success: #2f9e44;
+  --mp-success-bg: #e6f6ea;
+  --mp-error: #e2694a;
+  --mp-error-bg: #fbeae6;
+  --mp-warning: #f0ad4e;
+  --mp-warning-bg: #fdf3e3;
+
+  /* Effects */
+  --mp-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --mp-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --mp-radius-sm: 4px;
+  --mp-radius-md: 8px;
+  --mp-radius-lg: 12px;
+
+  /* Typography */
+  --mp-font-family:
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Gradients */
+  --mp-navbar-gradient: linear-gradient(
+    90deg,
+    var(--mp-orange-gradient-start),
+    var(--mp-orange-gradient-end)
+  );
+}
