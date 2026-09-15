@@ -71,13 +71,20 @@
 .actions-cell {
   display: flex;
   gap: 6px;
-  flex-wrap: wrap;
+  /* Never wrap: a wrappable flex container inside a table cell reports a
+     tiny min-content width, which lets the browser's table auto-layout
+     squeeze this column down and stack the buttons into a tall column
+     instead of growing the table. Keeping this in one line forces the
+     table to grow instead, so `.table-scroll` scrolls horizontally
+     rather than the row exploding in height. */
+  flex-wrap: nowrap;
 }
 
 .actions-cell button {
-  padding: 6px 10px;
+  padding: 7px 11px;
   font-size: 12px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .bulk-print-card {
