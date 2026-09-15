@@ -27,7 +27,7 @@ export const routes: Routes = [
           import('./features/batch-summary/batch-summary').then((m) => m.BatchSummary),
       },
       {
-        path: 'batch-processing',
+        path: 'batch-processing/:batchId',
         loadComponent: () =>
           import('./features/batch-processing/batch-processing').then((m) => m.BatchProcessing),
       },
@@ -46,7 +46,7 @@ export const routes: Routes = [
           import('./features/policy-search/policy-search').then((m) => m.PolicySearch),
       },
       {
-        path: 'policy-certificate',
+        path: 'policy-certificate/:policyId',
         loadComponent: () =>
           import('./features/policy-certificate/policy-certificate').then(
             (m) => m.PolicyCertificate,

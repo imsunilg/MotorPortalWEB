@@ -1,1 +1,115 @@
-<app-coming-soon [title]="title"></app-coming-soon>
+<div class="batch-processing-page">
+  <div class="page-header">
+    <h1>Batch Processing @if (batchId() !== null) { — Batch {{ batchId() }} }</h1>
+    <button type="button" class="mp-btn-secondary" (click)="backToBatchSummary()">
+      Back to Batch Summary
+    </button>
+  </div>
+
+  @if (statusError()) {
+    <div class="mp-alert-error">{{ statusError() }}</div>
+  }
+
+  @if (status(); as s) {
+    <div class="mp-card status-card">
+      <div class="status-row">
+        <div>
+          <span class="status-label">File</span>
+          <span class="status-value">{{ s.fileName }}</span>
+        </div>
+        <div>
+          <span class="status-label">Status</span>
+          <span class="mp-badge mp-badge-success">{{ s.status }}</span>
+        </div>
+        <div>
+          <span class="status-label">Created</span>
+          <span class="status-value">{{ s.createdOn | date: 'medium' }}</span>
+        </div>
+        <div>
+          <span class="status-label">Polling</span>
+          <span class="status-value">{{ polling() ? 'Live (every 2.5s)' : 'Stopped' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pipeline">
+      @for (stage of stages(); track stage.label) {
+        <div class="stage-tile" [class.pending]="stageState(stage) === 'pending'"
+             [class.active]="stageState(stage) === 'active'"
+             [class.done]="stageState(stage) === 'done'">
+          <div class="stage-icon">
+            @if (stageState(stage) === 'done') {
+              ✓
+            } @else if (stageState(stage) === 'active') {
+              ●
+            } @else {
+              ○
+            }
+          </div>
+          <div class="stage-label">{{ stage.label }}</div>
+          <div class="stage-count">{{ stage.count }} {{ stage.countLabel }}</div>
+        </div>
+      }
+    </div>
+
+    <div class="mp-card actions-card">
+      <button
+        type="button"
+        class="mp-btn-primary"
+        [disabled]="paymentBusy()"
+        (click)="tagPayments()"
+      >
+        @if (paymentBusy()) {
+          Tagging Payments...
+        } @else {
+          Tag Payments
+        }
+      </button>
+      <button type="button" class="mp-btn-secondary" (click)="goToBulkPrint()">
+        Back to Batch Summary for Bulk Print
+      </button>
+    </div>
+
+    @if (paymentError()) {
+      <div class="mp-alert-error">{{ paymentError() }}</div>
+    }
+
+    @if (paymentResult(); as pr) {
+      <div class="mp-card">
+        <h2>Payment Tagging Results</h2>
+        <p>
+          Batch {{ pr.batchId }}: {{ pr.succeededCount }} succeeded, {{ pr.failedCount }} failed,
+          {{ pr.policiesCreated }} policy(ies) created. Batch status: {{ pr.batchStatus }}.
+        </p>
+        <div class="table-scroll">
+          <table class="mp-table">
+            <thead>
+              <tr>
+                <th>Proposal ID</th>
+                <th>Result</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of pr.results; track r.proposalId) {
+                <tr>
+                  <td>{{ r.proposalId }}</td>
+                  <td>
+                    <span class="mp-badge" [class.mp-badge-success]="r.success" [class.mp-badge-error]="!r.success">
+                      {{ r.success ? 'Success' : 'Failed' }}
+                    </span>
+                  </td>
+                  <td>{{ r.message }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+  } @else if (!statusError()) {
+    <div class="mp-card">
+      <p>Loading batch status...</p>
+    </div>
+  }
+</div>
