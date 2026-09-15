@@ -79,6 +79,16 @@
   overflow-y: auto;
 }
 
+/* Common phone widths (390-430px) sit just above the 380px cap, which
+   left a sliver of the backdrop visible on the left of the drawer.
+   Let the drawer go full-width on any screen narrow enough that a
+   fixed 380px panel wouldn't act as a comfortable side drawer anyway. */
+@media (max-width: 480px) {
+  .drawer {
+    max-width: 100%;
+  }
+}
+
 .drawer-header {
   display: flex;
   align-items: center;
