@@ -1,1 +1,124 @@
-<app-coming-soon [title]="title"></app-coming-soon>
+<div class="excel-upload-page">
+  <h1>Excel Upload</h1>
+
+  <div class="mp-card">
+    <section class="section">
+      <h2>Product</h2>
+      <div class="option-list">
+        @for (product of products; track product.productId) {
+          <label class="option" [class.selected]="selectedProductId() === product.productId">
+            <input
+              type="radio"
+              name="product"
+              [checked]="selectedProductId() === product.productId"
+              (change)="selectProduct(product.productId)"
+            />
+            <span>{{ product.name }}</span>
+          </label>
+        }
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>File</h2>
+      <div class="file-row">
+        <label class="mp-btn-secondary file-btn">
+          Browse...
+          <input type="file" accept=".xlsx,.xls" hidden (change)="onFileSelected($event)" />
+        </label>
+        <span class="file-name">{{ selectedFile()?.name ?? 'No file selected' }}</span>
+      </div>
+
+      <div class="actions-row">
+        <button
+          type="button"
+          class="mp-btn-primary"
+          [disabled]="uploading() || !selectedFile() || selectedProductId() === null"
+          (click)="upload()"
+        >
+          @if (uploading()) {
+            Uploading...
+          } @else {
+            Upload
+          }
+        </button>
+
+        <button
+          type="button"
+          class="mp-btn-secondary"
+          [disabled]="downloadingTemplate()"
+          (click)="downloadSampleTemplate()"
+        >
+          @if (downloadingTemplate()) {
+            Downloading...
+          } @else {
+            Download sample Excel file
+          }
+        </button>
+      </div>
+
+      @if (templateError()) {
+        <div class="mp-alert-error">{{ templateError() }}</div>
+      }
+    </section>
+
+    @if (uploadErrorMessage()) {
+      <div class="mp-alert-error">
+        <p>{{ uploadErrorMessage() }}</p>
+        @if (uploadRowErrors().length > 0) {
+          <table class="mp-table row-error-table">
+            <thead>
+              <tr>
+                <th>Row</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (rowError of uploadRowErrors(); track rowError.row) {
+                <tr>
+                  <td>{{ rowError.row }}</td>
+                  <td>{{ rowError.reason }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    }
+
+    @if (uploadResult(); as result) {
+      <div class="mp-alert-success">
+        Record {{ result.totalRecords }} uploaded successfully. Batch ID : {{ result.batchId }}
+      </div>
+
+      @if (!processSummary()) {
+        <button type="button" class="mp-btn-primary" [disabled]="processing()" (click)="processBatch()">
+          @if (processing()) {
+            Processing current batch...
+          } @else {
+            Process current batch...
+          }
+        </button>
+      }
+
+      @if (processError()) {
+        <div class="mp-alert-error">{{ processError() }}</div>
+      }
+
+      @if (processSummary(); as summary) {
+        <div class="mp-alert-success process-summary">
+          <p>Batch processed. Status: <strong>{{ summary.status }}</strong></p>
+          <ul>
+            <li>Valid: {{ summary.validCount }}</li>
+            <li>Invalid: {{ summary.invalidCount }}</li>
+            <li>Premium Calculated: {{ summary.premiumCalculated }}</li>
+            <li>Proposals Created: {{ summary.proposalsCreated }}</li>
+          </ul>
+          <button type="button" class="mp-btn-secondary" (click)="goToBatchSummary()">
+            Go to Batch Summary
+          </button>
+        </div>
+      }
+    }
+  </div>
+</div>
