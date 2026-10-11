@@ -32,6 +32,11 @@ export class Login {
     return this.form.controls.password;
   }
 
+  useSampleCredentials(): void {
+    this.form.setValue({ username: 'admin', password: 'admin123' });
+    this.errorMessage.set(null);
+  }
+
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();

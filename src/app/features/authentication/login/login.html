@@ -2,6 +2,14 @@
   <div class="login-card">
     <h1 class="brand">Motor Portal</h1>
 
+    <div class="sample-credentials">
+      <span class="sample-credentials-label">Sample login</span>
+      <span class="sample-credentials-value">Login ID: <strong>admin</strong> &nbsp;·&nbsp; Password: <strong>admin123</strong></span>
+      <button type="button" class="sample-credentials-fill" (click)="useSampleCredentials()">
+        Use sample login
+      </button>
+    </div>
+
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
       <div class="field">
         <label for="username">Login ID</label>
